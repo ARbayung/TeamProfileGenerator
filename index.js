@@ -13,9 +13,7 @@ const Employee = require("./lib/Employee");
 
 
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
-const managers = [];
-const engineers = [];
-const interns = [];
+const team = [];
 const questions = [
     {
         type:'input',
@@ -49,7 +47,7 @@ function getDetails(){
             addManager(answer);
         } else if(answer.role === 'Engineer'){
             addEngineer(answer);
-        } else if(answer.role === 'Engineer'){
+        } else if(answer.role === 'Intern'){
             addIntern(answer);
         } 
     })
@@ -67,11 +65,11 @@ function addManager(answer){
     ])
     .then(answer => {
         target.officeNumber = answer.officeID ;
-        managers.push(target);
+        team.push(target);
         console.log("details added")
-        console.log(managers);
+        console.log(team);
     })
-    .then(init)
+    .then(init);
 }
 
 function addEngineer(answer){
@@ -86,12 +84,13 @@ function addEngineer(answer){
     ])
     .then(answer => {
         target.github = answer.gitHub;
-        engineers.push(target);
+        team.push(target);
         console.log("details added")
-        console.log(engineers);
+        console.log(team);
     })
-    init();
+    .then(init);
 }
+
 function addIntern(answer){
     const target = new Intern(answer.name, answer.id, answer.email);
 
@@ -104,14 +103,15 @@ function addIntern(answer){
     ])
     .then(answer => {
         target.school = answer.school;
-        interns.push(target);
+        team.push(target);
         console.log("details added")
-        console.log(managers);
+        console.log(team);
     })
-    init();
+    .then(init);
 }
 
 function init(){
+
     inquirer.prompt([
         {
             type:'list',
@@ -124,9 +124,18 @@ function init(){
             getDetails();
         }else{
             console.log("thankyou");
+            createPage();
         }
     })
     
+}
+
+function createPage(){
+    if(!fs.existsSync(OUTPUT_DIR)){
+        fs.mkdirSync(OUTPUT_DIR)
+    }
+
+    fs.writeFileSync(outputPath, render(team),'utf-8');
 }
 
 init();
