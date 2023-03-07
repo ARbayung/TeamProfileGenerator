@@ -53,7 +53,6 @@ function getDetails(){
             addIntern(answer);
         } 
     })
-    
 }
 
 function addManager(answer){
@@ -69,8 +68,10 @@ function addManager(answer){
     .then(answer => {
         target.officeNumber = answer.officeID ;
         managers.push(target);
+        console.log("details added")
+        console.log(managers);
     })
-
+    .then(init)
 }
 
 function addEngineer(answer){
@@ -86,7 +87,10 @@ function addEngineer(answer){
     .then(answer => {
         target.github = answer.gitHub;
         engineers.push(target);
+        console.log("details added")
+        console.log(engineers);
     })
+    init();
 }
 function addIntern(answer){
     const target = new Intern(answer.name, answer.id, answer.email);
@@ -101,12 +105,28 @@ function addIntern(answer){
     .then(answer => {
         target.school = answer.school;
         interns.push(target);
+        console.log("details added")
+        console.log(managers);
     })
-
+    init();
 }
 
 function init(){
-    getDetails();
+    inquirer.prompt([
+        {
+            type:'list',
+            name:'choice',
+            message:'would you like to add a member?',
+            choices:['yes','no']
+        }
+    ]).then(answer => {
+        if(answer.choice === 'yes'){
+            getDetails();
+        }else{
+            console.log("thankyou");
+        }
+    })
+    
 }
 
 init();
