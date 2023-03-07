@@ -1,7 +1,5 @@
 # TeamProfileGenerator
 
-Deployed link: https://arbayung.github.io/TeamProfileGenerator/
-
 ## Description
 
 Utilising node.js and extensions such as jest for processing tests, fs and path to create files in the directrory, inquirer to prompt inputs from user.
